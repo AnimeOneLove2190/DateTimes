@@ -11,10 +11,11 @@ namespace Project01
         public DateTime GetDateWithSelectedYear(int year)
         {
             int month = techService.GetRandomNumber(1, 12);
-            int day = techService.GetRandomNumber(1, 28);
-            int hour = techService.GetRandomNumber(1, 23);
-            int minute = techService.GetRandomNumber(1, 59);
-            int second = techService.GetRandomNumber(1, 59);
+            int maxDay = DateTime.DaysInMonth(year, month);
+            int day = techService.GetRandomNumber(1, maxDay + 1);
+            int hour = techService.GetRandomNumber(1, 24);
+            int minute = techService.GetRandomNumber(1, 60);
+            int second = techService.GetRandomNumber(1, 60);
             DateTime dateWithSelectedYear = new DateTime(year, month, day, hour, minute, second);
             return dateWithSelectedYear;
         }
@@ -89,14 +90,13 @@ namespace Project01
             int countOfWeekends = GetCountOfWeekends(firstDate, lastDate);
             dateArray = new DateTime[countOfWeekends];
             DateTime tempStore = firstDate;
-            for (int i = 0; i < countOfWeekends;)
+            for (int i = 0; i < countOfWeekends; tempStore = tempStore.AddDays(1))
             {
                 if (tempStore.DayOfWeek == DayOfWeek.Saturday || tempStore.DayOfWeek == DayOfWeek.Sunday)
                 {
                     dateArray[i] = tempStore;
                     i++;
                 }
-                tempStore = tempStore.AddDays(1);
             }
             return dateArray;
         }
